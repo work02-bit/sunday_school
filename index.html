@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مدارس الأحد – كنيسة ابي سيفين</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #f0d080;
+      --gold-dim: rgba(201,168,76,0.18);
+      --deep: #0b0f1a;
+      --text: #f0ece2;
+      --text-muted: rgba(240,236,226,0.55);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--deep);
+      color: var(--text);
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+    }
+
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .cross-watermark {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .cross-watermark svg { width: min(500px, 80vw); height: min(500px, 80vw); opacity: 0.03; }
+
+    .wrapper {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(24px, 5vw, 48px) clamp(16px, 4vw, 32px) 80px;
+      gap: 0;
+    }
+
+    /* ORB */
+    .orb {
+      width: clamp(80px, 20vw, 120px);
+      height: clamp(80px, 20vw, 120px);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #f0d080, #c9a84c 50%, #7a5c1a);
+      box-shadow: 0 0 50px rgba(201,168,76,0.4), 0 0 100px rgba(201,168,76,0.15);
+      margin-bottom: clamp(20px, 4vw, 32px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: orbFloat 4s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    .orb::after {
+      content: '✝';
+      font-size: clamp(30px, 8vw, 48px);
+      color: var(--deep);
+      font-weight: 900;
+    }
+    @keyframes orbFloat {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); box-shadow: 0 20px 70px rgba(201,168,76,0.35), 0 0 130px rgba(201,168,76,0.2); }
+    }
+
+    .church-name {
+      font-family: 'Amiri', serif;
+      font-size: clamp(11px, 3vw, 15px);
+      color: var(--gold);
+      letter-spacing: 1px;
+      text-align: center;
+      margin-bottom: clamp(10px, 2.5vw, 16px);
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.2s forwards;
+      padding: 0 8px;
+      line-height: 1.5;
+    }
+
+    .main-title {
+      font-family: 'Amiri', serif;
+      font-size: clamp(28px, 9vw, 56px);
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.25;
+      margin-bottom: clamp(8px, 2vw, 12px);
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.4s forwards;
+    }
+    .main-title span {
+      background: linear-gradient(135deg, #f0d080, #c9a84c, #f0d080);
+      background-size: 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3s linear infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% center; }
+      100% { background-position: -200% center; }
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: clamp(14px, 3vw, 20px) 0 clamp(18px, 4vw, 28px);
+      width: 100%;
+      max-width: 380px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.5s forwards;
+    }
+    .divider-line { flex: 1; height: 1px; background: linear-gradient(to left, transparent, var(--gold), transparent); }
+    .divider-icon { color: var(--gold); font-size: 13px; }
+
+    /* INFO CARDS */
+    .info-section {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(8px, 2vw, 14px);
+      max-width: 540px;
+      width: 100%;
+      margin-bottom: clamp(28px, 6vw, 40px);
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.6s forwards;
+    }
+    @media (max-width: 380px) {
+      .info-section { grid-template-columns: 1fr; max-width: 260px; gap: 8px; }
+    }
+
+    .info-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: clamp(10px, 2.5vw, 16px);
+      padding: clamp(10px, 2.5vw, 16px) clamp(8px, 2vw, 12px);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .info-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    @media (hover: hover) {
+      .info-card:hover {
+        background: rgba(201,168,76,0.08);
+        border-color: rgba(201,168,76,0.45);
+        transform: translateY(-3px);
+      }
+    }
+    .info-role {
+      font-size: clamp(9px, 2vw, 10px);
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    .info-name {
+      font-size: clamp(10px, 2.5vw, 12px);
+      color: var(--text);
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    /* ENTER BTN */
+    .enter-btn {
+      position: relative;
+      padding: clamp(13px, 3.5vw, 16px) clamp(36px, 10vw, 56px);
+      font-family: 'Cairo', sans-serif;
+      font-size: clamp(15px, 4vw, 17px);
+      font-weight: 700;
+      color: var(--deep);
+      background: linear-gradient(135deg, #f0d080, #c9a84c);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.8s forwards;
+      box-shadow: 0 8px 32px rgba(201,168,76,0.35);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .enter-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    @media (hover: hover) {
+      .enter-btn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 16px 48px rgba(201,168,76,0.5); }
+      .enter-btn:hover::before { opacity: 1; }
+    }
+    .enter-btn:active { transform: scale(0.96); }
+
+    .footer {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      padding: 10px;
+      text-align: center;
+      font-size: clamp(10px, 2.5vw, 11px);
+      color: var(--text-muted);
+      background: rgba(11,15,26,0.85);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(201,168,76,0.1);
+      z-index: 20;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="cross-watermark">
+  <svg viewBox="0 0 200 200" fill="white">
+    <rect x="85" y="10" width="30" height="180" rx="4"/>
+    <rect x="20" y="65" width="160" height="30" rx="4"/>
+  </svg>
+</div>
+
+<div class="wrapper">
+  <div class="orb"></div>
+  <div class="church-name">كنيسة الشهيد العظيم ابي سيفين والامير تادرس الشطبي</div>
+  <h1 class="main-title">أهلاً بيك في<br><span>مدارس الأحد</span></h1>
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-icon">✦</div>
+    <div class="divider-line"></div>
+  </div>
+  <div class="info-section">
+    <div class="info-card">
+      <div class="info-role">الكاهن المسئول</div>
+      <div class="info-name">القس انسطاسي شحاتة</div>
+    </div>
+    <div class="info-card">
+      <div class="info-role">امين الخدمة</div>
+      <div class="info-name">أ. سمير صفوت</div>
+    </div>
+    <div class="info-card">
+      <div class="info-role">مشرف الخدمة</div>
+      <div class="info-name">أ. بيشوي نبيه</div>
+    </div>
+  </div>
+  <button class="enter-btn" onclick="window.location.href='f1.html'">دخول للموقع ✦</button>
+</div>
+
+<div class="footer">Developed by Engineer: Mario Ashraf</div>
+
+<script>
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function initParticles() {
+    particles = [];
+    const count = window.innerWidth < 480 ? 35 : 60;
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * W, y: Math.random() * H,
+        r: Math.random() * 1.4 + 0.3,
+        speed: Math.random() * 0.35 + 0.08,
+        opacity: Math.random() * 0.45 + 0.08,
+        drift: (Math.random() - 0.5) * 0.25
+      });
+    }
+  }
+
+  function drawGlow() {
+    const g1 = ctx.createRadialGradient(W*0.2, H*0.3, 0, W*0.2, H*0.3, W*0.4);
+    g1.addColorStop(0, 'rgba(201,168,76,0.07)'); g1.addColorStop(1, 'transparent');
+    ctx.fillStyle = g1; ctx.fillRect(0, 0, W, H);
+    const g2 = ctx.createRadialGradient(W*0.8, H*0.7, 0, W*0.8, H*0.7, W*0.35);
+    g2.addColorStop(0, 'rgba(78,140,222,0.05)'); g2.addColorStop(1, 'transparent');
+    ctx.fillStyle = g2; ctx.fillRect(0, 0, W, H);
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = '#0b0f1a'; ctx.fillRect(0, 0, W, H);
+    drawGlow();
+    particles.forEach(p => {
+      p.y -= p.speed; p.x += p.drift;
+      if (p.y < -5) { p.y = H + 5; p.x = Math.random() * W; }
+      if (p.x < -5) p.x = W + 5;
+      if (p.x > W + 5) p.x = -5;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(201,168,76,${p.opacity})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(animate);
+  }
+
+  resize(); initParticles(); animate();
+  window.addEventListener('resize', () => { resize(); initParticles(); });
+</script>
+</body>
+</html>
