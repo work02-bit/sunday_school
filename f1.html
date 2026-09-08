@@ -395,7 +395,7 @@
   <div class="hero-strip">
     <div>
       <div class="hero-title">جدول الدروس والخدام</div>
-      <div class="hero-sub">موسم اغسطس ٢٠٢٦ · اضغط على أي فصل لعرض الجدول</div>
+      <div class="hero-sub">موسم سبتمبر ٢٠٢٦ · اضغط على أي فصل لعرض الجدول</div>
     </div>
     <div class="hero-count">
       <div class="count-chip">
@@ -403,7 +403,7 @@
         <div class="count-label">فصول</div>
       </div>
       <div class="count-chip">
-        <div class="count-num">5</div>
+        <div class="count-num">3</div>
         <div class="count-label">دروس</div>
       </div>
     </div>
@@ -443,23 +443,23 @@ function getIllustration(classKey, lessonIndex) {
 
 /* ═══════════════ DATA ═══════════════ */
 const lessons = [
-  { date: "2026-08-07",  lesson: "العذراء والدة الاله",                    source: "https://st-takla.org/books/fr-botros-elbaramosy/ebooks/cyril-quaternity/mary-mother-of-god.html" },
-  { date: "2026-08-14", lesson: " العذراء عصا هارون",                      source: "https://st-takla.org/Full-Free-Coptic-Books/His-Holiness-Pope-Shenouda-III-Books-Online/41-Al-Sayeda-Al-3athra2/The-Holy-Virgin-St-Mary__10-Symbols.html" },
-  { date: "2026-08-21", lesson: "العذراء المجمرة الذهب",     source: "https://st-takla.org/Full-Free-Coptic-Books/His-Holiness-Pope-Shenouda-III-Books-Online/41-Al-Sayeda-Al-3athra2/The-Holy-Virgin-St-Mary__09-Titles-2.html" },
-  { date: "2026-08-28", lesson: " العذراء السماء الثانية",                   source: "" }
+  { date: "2026-09-4",  lesson: " ", source:""},
+  { date: "2026-09-11", lesson: "عيد النيروز",                      source: "https://st-takla.org/Feastes-&-Special-Events/Nayrouz-Coptic-New-Year-Eid-El-Nairouz/Coptic-Year-Eid-Al-Nayroz-or-Nairoz-or-Nairuz_10-Eid-El-Nayrooz-Zekra-El-Shohada2_.html" },
+  { date: "2026-09-18", lesson: "الصليب",     source: "https://st-takla.org/Full-Free-Coptic-Books/FreeCopticBooks-017-Bishop-Yakobos/001-Al-Saleeb-Fel-Masiheya/The-Cross-in-Christianity__01-Intro.html" },
+  { date: "2026-09-25", lesson: "دانيال",                   source: "https://st-takla.org/Full-Free-Coptic-Books/FreeCopticBooks-002-Holy-Arabic-Bible-Dictionary/08_D/d_05.html" }
 ];
 
 const data = {
-  kg1:  { name: "كي جي 1",              icon: "🌱", color: "#4ade80", servants: ["جوليا بطرس ","بسنت بطرس "," ام كاراس","مريم عاطف"] },
-  kg2:  { name: "كي جي 2",              icon: "🌿", color: "#22d3ee", servants: ["ناردين بنيامين "," ميرنا ناجح ","  نانسي عيسي"," رانيا يوسف"] },
-  p1:   { name: "أولى ابتدائي",         icon: "📖", color: "#a78bfa", servants: [" نورا مجدي"," مورا القس امونيوس","  مريم هلال","كارولين بنيامين"] },
-  p2:   { name: "تانية ابتدائي",        icon: "✏️", color: "#f472b6", servants: ["نعمات ظريف","حنان عاطف","نورا هاني"," اغابي فرج "] },
-  p3b:  { name: "تالتة ابتدائي أولاد", icon: "⚽", color: "#38bdf8", servants: [" عماد يوسف","عادل جاد"," عماد يوسف","باسم خلف"] },
-  p3g:  { name: "تالتة ابتدائي بنات",  icon: "🌸", color: "#fb7185", servants: ["ايريني مجدي ","بسمة عاطف"," مادونا رضا","مريم فايز"] },
-  p4b:  { name: "رابعة ابتدائي أولاد", icon: "🏆", color: "#fbbf24", servants: ["يوسف  جاد"," مينا منتصر"," كيرلس ماهر","يوسف جاد"] },
-  p4g:  { name: "رابعة ابتدائي بنات",  icon: "🌺", color: "#e879f9", servants: ["ام مكاريوس","انجي سمير"," مورين بطرس ","فيبي عادل"] },
-  p5b:  { name: "خامسة ابتدائي أولاد", icon: "🎯", color: "#34d399", servants: ["فادي سامي"," كرياكوس سعد"," ماريو اشرف"," توماس سمير"] },
-  p5g:  { name: "خامسة ابتدائي بنات",  icon: "🦋", color: "#c084fc", servants: [" ماريان تواب","هيلانة","مهرائيل اشرف","مهرائيل خلف"] },
+  kg1:  { name: "كي جي 1",              icon: "🌱", color: "#4ade80", servants: ["لا يوجد "," ام جورج "," اميرة فهيم","ايريني عيد "] },
+  kg2:  { name: "كي جي 2",              icon: "🌿", color: "#22d3ee", servants: ["لا يوجد "," ميرنا أشرف ","ميرنا اشرف","  ناردين بنيامين"] },
+  p1:   { name: "أولى ابتدائي",         icon: "📖", color: "#a78bfa", servants: ["  لا يوجد","دميانة مجدي","  مريم هلال","كارولين بنيامين"] },
+  p2:   { name: "تانية ابتدائي",        icon: "✏️", color: "#f472b6", servants: [" لا يوجد","حنان عاطف","نورا هاني","رودي صفوت "] },
+  p3b:  { name: "تالتة ابتدائي أولاد", icon: "⚽", color: "#38bdf8", servants: ["عادل جاد","عماد يوسف"," باسم خلف","" },
+  p3g:  { name: "تالتة ابتدائي بنات",  icon: "🌸", color: "#fb7185", servants: ["لا يوجد ","بسمة عاطف"," مادونا رضا","ايريني مجدي"] },
+  p4b:  { name: "رابعة ابتدائي أولاد", icon: "🏆", color: "#fbbf24", servants: ["لا يوجد"," يوسف جاد"," ابراهيم اسحق","مينا منتصر"] },
+  p4g:  { name: "رابعة ابتدائي بنات",  icon: "🌺", color: "#e879f9", servants: ["لا يوجد","ام مكاريوس"," انجي سمير ","فيبي عادل"] },
+  p5b:  { name: "خامسة ابتدائي أولاد", icon: "🎯", color: "#34d399", servants: ["لا يوجد ","  توماس سمير"," ماريو اشرف"," كرياكوس سعد"] },
+  p5g:  { name: "خامسة ابتدائي بنات",  icon: "🦋", color: "#c084fc", servants: [" لا يوجد","ماريان تواب","هيلانة"," مهرائيل اشرف"] },
 };
 
 /* ═══════════════ SOUND ═══════════════ */
